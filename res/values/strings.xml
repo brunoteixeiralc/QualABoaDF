@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   
+    <string name="app_name">Qual a Boa DF?</string>
+    <string name="erro_conexao_indisponivel">Conexão indísponivel, por favor ative sua rede móvel ou Wi-fi</string>
+    <string name="aguarde">Aguarde</string>
+    <string name="share">Compartilhar</string>
+    <string name="favorite">Compartilhar</string>
+	<string name="app_id">146454188877464</string>
+	<string name="drawer_open">Abrir navegação</string>
+	<string name="drawer_close">Fechar navegação</string>
+	
+</resources>

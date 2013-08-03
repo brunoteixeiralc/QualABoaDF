@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:title="Configurações"
+    android:key="settings">
+    <PreferenceCategory android:title="Geral">
+    <CheckBoxPreference
+            android:key="notification"
+            android:summary="Receber notificações de festas novas"
+            android:title="Notificações"
+            android:defaultValue="false"
+        />
+</PreferenceCategory>
+</PreferenceScreen>
