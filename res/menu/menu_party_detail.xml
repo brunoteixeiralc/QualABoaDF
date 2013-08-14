@@ -17,10 +17,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<!-- custom -->
-	<item android:id="@+id/menu_share" android:showAsAction="always|withText"
+	<!-- <item android:id="@+id/menu_share" android:showAsAction="always|withText"
 		android:title="@string/share" android:icon="@drawable/ic_facebook">
-	</item>
+	</item> -->
+	<item android:id="@+id/menu_item_share"
+        android:showAsAction="ifRoom"
+        android:title="Share"
+        android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider" />
+	
 	<item android:id="@+id/menu_favorite" android:showAsAction="always"
-		android:title="@string/favorite" android:icon="@drawable/ic_rating_not_important">
-	</item>
+		android:title="@string/favorite" android:icon="@drawable/ic_rating_not_important"/>
+	
 </menu>

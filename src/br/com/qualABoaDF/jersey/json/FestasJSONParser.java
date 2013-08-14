@@ -43,6 +43,11 @@ public class FestasJSONParser {
 			String imagem = festaJson.getString("imagem");
 			String maisInformacoesURL = festaJson.getString("maisInformacoesURL");
 			
+			imagem = imagem.replaceAll("(á|Á)","%C3%81").replaceAll("(é|É)","%C3%A9").
+					replaceAll("(í|Í)","%C3%AD").replaceAll("(ó|Ó)","%C3%B3").
+					replaceAll("â|Â", "%C3%A2").replaceAll("ç|Ç", "%C3%A7").replaceAll("ã|Ã", "%C3%A3").
+					replaceAll("ê|Ê", "%C3%AA");
+			
 			f.setNomeFesta(nome);
 			f.setDataFesta(data);
 			f.setHoraFesta(hora);

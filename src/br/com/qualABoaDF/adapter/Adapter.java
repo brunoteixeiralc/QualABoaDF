@@ -87,7 +87,7 @@ public class Adapter extends BaseAdapter {
         festa = new Festa();
         
         festa = dataFestas.get(position);
-
+        
         holder.evento.setText(festa.getNomeFesta());
         holder.data.setText("Data: " + festa.getDataFesta());
         holder.hora.setText("Hora: " + festa.getHoraFesta());

@@ -1,5 +1,6 @@
 package br.com.qualABoaDF;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -7,12 +8,15 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 import br.com.qualABoaDF.banco.RepositorioDataSource;
 import br.com.qualABoaDF.fragment.CommentsFragment;
@@ -41,6 +45,7 @@ public class MainActivityDetail extends SherlockFragmentActivity{
 	private boolean pendingPublishReauthorization = false;
 	private static final String TAG = "Facebook Publish";
 	private RepositorioDataSource repositorioDataSource;
+	private com.actionbarsherlock.widget.ShareActionProvider shareActionProvider;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,7 @@ public class MainActivityDetail extends SherlockFragmentActivity{
 	@Override
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 		
+		 
 		
 		getSupportMenuInflater().inflate(R.menu.menu_party_detail, menu);
 		MenuItem item = menu.findItem(R.id.menu_favorite);
@@ -102,7 +108,21 @@ public class MainActivityDetail extends SherlockFragmentActivity{
 			item.setIcon(R.drawable.ic_rating_important);
 		repositorioDataSource.close();
 		
+		MenuItem itemShare = menu.findItem(R.id.menu_item_share);
+		shareActionProvider = (com.actionbarsherlock.widget.ShareActionProvider) itemShare.getActionProvider();
+		shareActionProvider.setShareIntent(getDefaultIntent());
+		
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	private Intent getDefaultIntent() {
+	    Intent intent = new Intent(Intent.ACTION_SEND);
+	    //intent.setType("image/*");
+	    intent.setType("text/plain");
+	    intent.putExtra(Intent.EXTRA_TEXT,festa.getNomeFesta() + "," + festa.getDataFesta() + "," + festa.getHoraFesta() + "," + festa.getMaisInformacoesURL());
+	    //Uri uri = Uri.fromFile(new File(getFilesDir(), festa.getImagemFesta()));
+	    //intent.putExtra(Intent.EXTRA_STREAM, uri.toString());
+	    return intent;
 	}
 	
 	@Override
@@ -111,9 +131,6 @@ public class MainActivityDetail extends SherlockFragmentActivity{
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			finish();
-			return true;
-		case R.id.menu_share:
-			publishStory();
 			return true;
 		case R.id.menu_favorite:
 			repositorioDataSource = new RepositorioDataSource(this);

@@ -33,8 +33,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		uiHelper = new UiLifecycleHelper(this,callback );
-        uiHelper.onCreate(savedInstanceState);
+        uiHelper.onCreate(savedInstanceState);       
         setContentView(R.layout.login);
+        
 		LoginButton button = (LoginButton) findViewById(R.id.login_button);
 		button.setOnErrorListener(new OnErrorListener() {
 			
