@@ -25,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.qualABoaDF.MainActivityDetail;
@@ -47,6 +48,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
 
 @SuppressWarnings("unused")
 public final class PartyListFragment extends SherlockFragmentActivity implements OnItemClickListener, Transacao {
@@ -54,7 +58,7 @@ public final class PartyListFragment extends SherlockFragmentActivity implements
 	
 	private String mContent;
 	private ListView list;
-	private List<Festa> listFestas = new ArrayList<Festa>();
+	public static List<Festa> listFestas = new ArrayList<Festa>();
 	private FestaDetalhes outrasInformacoesFesta;
 	private FestaMapa mapaFesta;
 	private Festa informacoesFesta;
@@ -75,17 +79,18 @@ public final class PartyListFragment extends SherlockFragmentActivity implements
 	private String[] title;
 	private int[] icon;
 	private MenuListAdapter menuListAdapter;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.fragment_list);
 		
 		 title = new String[] { "Eventos em Brasília", "Seus Favoritos",
          "Configurações" };
 
 		 icon = new int[] { R.drawable.ic_collections_go_to_today,R.drawable.ic_rating_important , R.drawable.ic_settings};
-			
+		 
 		 mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 		 mDrawerList = (ListView)findViewById(R.id.left_drawer);
 		 mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -164,7 +169,7 @@ public final class PartyListFragment extends SherlockFragmentActivity implements
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		 mDrawerToggle.syncState();
+			mDrawerToggle.syncState();
 	}
 	
 	@Override

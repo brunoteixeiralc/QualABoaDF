@@ -1,5 +1,5 @@
 # cache for current jar dependency. DO NOT EDIT.
 # format is <lastModified> <length> <SHA-1> <path>
 # Encoding is UTF-8
-1369189204000 484258 bd6479f5dd592790607e0504e66e0f31c2b4d308 /Users/bruno/Eclipse/Projetos_Mobile/JakeWharton-Android-ViewPagerIndicator-8cd549f/libraryViewPager/libs/android-support-v4.jar
-1369271246000 484258 bd6479f5dd592790607e0504e66e0f31c2b4d308 /Users/bruno/Eclipse/Projetos_Mobile/QualABoaDF/libs/android-support-v4.jar
+1369593041000 110746 59f19e43354d32de831379c23ce03bb259a4c2b7 /Users/bruno/Eclipse/Projetos_Mobile/QualABoaDF/libs/nineoldandroids-2.4.0.jar
+1361101798000 110746 59f19e43354d32de831379c23ce03bb259a4c2b7 /Users/bruno/Eclipse/Projetos_Mobile/CardsUILib/libs/nineoldandroids-2.4.0.jar

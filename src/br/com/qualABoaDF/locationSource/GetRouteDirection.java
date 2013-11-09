@@ -24,6 +24,8 @@ public class GetRouteDirection {
 
 	public final static String MODE_DRIVING = "driving";
     public final static String MODE_WALKING = "walking";
+    public float distance;
+    public int duration;
 
     public GetRouteDirection() { }
     
@@ -137,7 +139,21 @@ public class GetRouteDirection {
                 lngNode = nl3.item(getNodeIndex(nl3, "lng"));
                 lng = Double.parseDouble(lngNode.getTextContent());
                 listGeopoints.add(new LatLng(lat, lng));
+                
+                locationNode = nl2.item(getNodeIndex(nl2, "distance"));
+                nl3 = locationNode.getChildNodes();
+            	latNode = nl3.item(getNodeIndex(nl3, "value"));
+            	distance = distance + (Float.parseFloat(latNode.getTextContent()));
+
+                locationNode = nl2.item(getNodeIndex(nl2, "duration"));
+                nl3 = locationNode.getChildNodes();
+                latNode = nl3.item(getNodeIndex(nl3, "value"));
+                duration = duration + Integer.parseInt(latNode.getTextContent());
+               
             }
+            
+            distance = distance/1000;
+            duration = duration/60;
         }
 
         return listGeopoints;

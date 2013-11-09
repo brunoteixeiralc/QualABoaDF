@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -28,8 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import br.com.qualABoaDF.R;
 import br.com.qualABoaDF.locationSource.GetRouteDirection;
-import br.com.qualABoaDF.negocial.FestaDetalhes;
 import br.com.qualABoaDF.negocial.Festa;
+import br.com.qualABoaDF.negocial.FestaDetalhes;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,7 +47,7 @@ public final class MapsFragment extends Fragment implements LocationListener {
 
 	private View view;
 	private GoogleMap map;
-	private Location location;
+	private Location locationNetwork,locationGPS;
 	private LocationManager locationManager;
 	private FestaDetalhes detalhesFesta;
 	private Festa informacoesFesta;
@@ -55,6 +56,8 @@ public final class MapsFragment extends Fragment implements LocationListener {
 	private LatLng to;
 	private Document document;
 	private GetRouteDirection v2GetRouteDirection;
+	private TextView duracaoDistancia;
+	private boolean opcaoProviderEscolhido;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +70,7 @@ public final class MapsFragment extends Fragment implements LocationListener {
 	    }
 	    try {
 	    	view = inflater.inflate(R.layout.fragment_maps, null);
+	    	duracaoDistancia = (TextView) view.findViewById(R.id.distdur);
 	    	map = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 			map.setMyLocationEnabled(true);
 			map.setTrafficEnabled(true);
@@ -144,17 +148,21 @@ public final class MapsFragment extends Fragment implements LocationListener {
 		
 		super.onResume();
 		
-		//Liga GPS
 		locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-	
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		locationNetwork = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-			location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			calcularRota();
+			locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if(locationGPS == null)
+				calcularRota(locationNetwork);
+			else
+				calcularRota(locationGPS);
 
-		}else{			
+		}else if(!opcaoProviderEscolhido){		
 			
 			AlertDialog.Builder aBuilder = new AlertDialog.Builder(getActivity());
 			aBuilder.setMessage("O GPS est‡ desligado, deseja ligar?").setCancelable(false).setPositiveButton("Sim", new DialogInterface.OnClickListener() {
@@ -168,17 +176,19 @@ public final class MapsFragment extends Fragment implements LocationListener {
 			
 			aBuilder.setNegativeButton("N‹o", new DialogInterface.OnClickListener() {
 				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
+			@Override
+					public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();
-					location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-					calcularRota();
-					
-				}
-			});
+					calcularRota(locationNetwork);
+			}
+		});
 			
 			AlertDialog alertDialog = aBuilder.create();
 			alertDialog.show();
+			opcaoProviderEscolhido = true;
+			
+		}else{
+			calcularRota(locationNetwork);
 		}
 
 	}
@@ -194,7 +204,10 @@ public final class MapsFragment extends Fragment implements LocationListener {
 	
 	@Override
 	public void onLocationChanged(Location location) {		
-
+		 if (location != null)
+		    {
+		        Log.i("SuperMap", "Location changed : Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
+		    } 
 	}
 
 	@Override
@@ -215,7 +228,14 @@ public final class MapsFragment extends Fragment implements LocationListener {
 		
 	}
 	
-	private void calcularRota(){
+	private void calcularRota(Location location){
+		
+//		GpsLocationTracker gpsLocationTracker = new GpsLocationTracker(this.getActivity());
+//		
+//		if (gpsLocationTracker.canGetLocation()) 
+//        {
+//			from = new LatLng(gpsLocationTracker.getLatitude(), gpsLocationTracker.getLongitude());
+//        } 
 		
 		v2GetRouteDirection = new GetRouteDirection();
 		from = new LatLng(location.getLatitude(), location.getLongitude());
@@ -248,15 +268,17 @@ public final class MapsFragment extends Fragment implements LocationListener {
                map.clear();
                if(response.equalsIgnoreCase("Success")){
                ArrayList<LatLng> directionPoint = v2GetRouteDirection.getDirection(document);
+               
                PolylineOptions rectLine = new PolylineOptions().width(10).color(
                            Color.RED);
 
                for (int i = 0; i < directionPoint.size(); i++) {
                      rectLine.add(directionPoint.get(i));
+
                }
-               
                map.addPolyline(rectLine);
                adicionarMarcador(map, from, to);
+               duracaoDistancia.setText("Dist‰ncia de " + v2GetRouteDirection.distance + "km e " + "chegar‡ em " + v2GetRouteDirection.duration + "min");
                }
               
                Dialog.dismiss();

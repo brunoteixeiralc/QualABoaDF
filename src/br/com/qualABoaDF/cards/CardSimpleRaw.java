@@ -1,6 +1,6 @@
 package br.com.qualABoaDF.cards;
 
-import java.util.Set;
+import java.util.List;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -17,7 +17,7 @@ import com.fima.cardsui.objects.Card;
 public class CardSimpleRaw extends Card {
 
 	
-	public CardSimpleRaw(String title, Set<String> outrasInformacoes){
+	public CardSimpleRaw(String title, List<String> outrasInformacoes){
 		super(title,outrasInformacoes);
 	}
 

@@ -5,12 +5,11 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
+import br.com.qualABoaDF.negocial.Festa;
 import br.com.qualABoaDF.negocial.FestaComentarios;
 import br.com.qualABoaDF.negocial.FestaDetalhes;
-import br.com.qualABoaDF.negocial.Festa;
 import br.com.qualABoaDF.negocial.FestaMapa;
 
 public class Spider {
@@ -118,9 +117,9 @@ public class Spider {
 	public FestaDetalhes outrasInformacoes(String url) throws IOException{
 		
 		detalhesFesta = new FestaDetalhes();
-		detalhesFesta.setAtracoes(new HashSet<String>());
-		detalhesFesta.setIngressos(new HashSet<String>());
-		detalhesFesta.setMaisInformacoes(new HashSet<String>());
+		detalhesFesta.setAtracoes(new ArrayList<String>());
+		detalhesFesta.setIngressos(new ArrayList<String>());
+		detalhesFesta.setMaisInformacoes(new ArrayList<String>());
 		
 		atracoes = new ArrayList<String>();
 		ingressos = new ArrayList<String>();
@@ -194,8 +193,7 @@ public class Spider {
 			
 			}
 			
-			patternOutraInformacoes = "(<)(/*)(\\w+.)(\"*)(/*)(>*)";
-			
+			patternOutraInformacoes = "(<)(\\w|\\s|/|:|;|\"|#|=|-)*(>)";
 			for (String at : atracoes) {
 				
 				at = at.replaceAll(patternOutraInformacoes, "");
@@ -238,7 +236,7 @@ public class Spider {
 			patternComentario = "(.+)(<)(/*)(\\w+.)(\"*)(/*)(>*)";
 			patternComentarioFormat = "(<)(/*)(\\w+.)(\"*)(/*)(>*)";
 			
-			detalhesFesta.setComentarioFesta(new HashSet<FestaComentarios>());
+			detalhesFesta.setComentarioFesta(new ArrayList<FestaComentarios>());
 			
 			try {
 				

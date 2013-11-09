@@ -2,7 +2,9 @@ package br.com.qualABoaDF.fragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +39,7 @@ public class FavoriteFragment extends SherlockFragmentActivity implements Transa
 	private FestaDetalhes outrasInformacoesFesta;
 	private Spider spider;
 	private Intent intent;
+	private Map<String, Festa> mapListTodasFestas = new HashMap<String, Festa>();
 			
 			@Override
 			public void onSaveInstanceState(Bundle outState) {
@@ -49,6 +52,10 @@ public class FavoriteFragment extends SherlockFragmentActivity implements Transa
 				super.onCreate(bundle);
 				
 				setContentView(R.layout.fragment_favorite);
+				
+				for (Festa festa :  PartyListFragment.listFestas) {
+					mapListTodasFestas.put(festa.getNomeFesta(), festa);
+				}
 				
 				getSherlock().getActionBar().setHomeButtonEnabled(true);
 				getSherlock().getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,6 +76,15 @@ public class FavoriteFragment extends SherlockFragmentActivity implements Transa
 					repositorioDataSource.close();
 					adapter = new Adapter(this, listFestas);
 					list.setAdapter(adapter);
+				}
+				
+				for (Festa festaFavorita : listFestas) {
+					if(mapListTodasFestas.get(festaFavorita.getNomeFesta()) == null){
+						repositorioDataSource.open();
+						repositorioDataSource.deleteFavorite(festaFavorita);
+						listFestas.remove(festaFavorita);
+						repositorioDataSource.close();
+					}
 				}
 			}
 			

@@ -1,15 +1,17 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ads= "http://schemas.android.com/apk/lib/com.google.ads"
 	android:id="@+id/detail"
     android:orientation="horizontal"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#ffffff">
         
          <com.fima.cardsui.views.CardUI
         android:id="@+id/cardsview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    
+ 
     </RelativeLayout>
 
    
